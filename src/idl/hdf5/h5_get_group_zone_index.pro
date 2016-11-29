@@ -25,7 +25,7 @@
 ; :Returns:
 ;    a long integer of the index of the zone for the group
 ;
-; :Example (copy and paste):
+; :Examples (copy and paste):
 ;    (if my_output.h5)
 ;    IDL>print, h5_get_group_zone_index( 'my_output.h5', 'Step 00021', [4,9,7] )
 ;

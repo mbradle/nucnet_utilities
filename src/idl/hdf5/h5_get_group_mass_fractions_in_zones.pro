@@ -28,7 +28,7 @@
 ;    corresponding to each species and the second dimension corresponding to 
 ;    each zone 
 ;    
-; :Example (copy and paste):
+; :Examples (copy and paste):
 ;    (if my_output.h5)
 ;    IDL>print, h5_get_group_mass_fractions_in_zones( 'my_output.h5', 'Step 00025', 'mg24' )
 ;    IDL>print, h5_get_group_mass_fractions_in_zones( 'my_output.h5', 'Step 00025', ['mg24','mg25','mg26'] )

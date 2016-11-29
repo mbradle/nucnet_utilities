@@ -27,7 +27,7 @@
 ;    a double array containing the mass fraction of one or more species in the 
 ;    zone for the group
 ;
-; :Example (copy and paste):
+; :Examples (copy and paste):
 ;    (if my_output.h5)
 ;    IDL>print, h5_get_group_zone_mass_fractions( 'my_output.h5', 'Step 00021', [4,9,7], 'mg24' )
 ;    IDL>print, h5_get_group_zone_mass_fractions( 'my_output.h5', 'Step 00021', [4,9,7], ['mg24','mg25','mg26'] )

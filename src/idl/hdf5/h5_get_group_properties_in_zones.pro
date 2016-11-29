@@ -32,7 +32,7 @@
 ;    one or more properties in all zones, the first dimension corresponding to 
 ;    each property and the second dimension corresponding to each zone 
 ;    
-; :Example (copy and paste):
+; :Examples (copy and paste):
 ;    (if my_output.h5)
 ;    IDL>print, h5_get_group_properties_in_zones( 'my_output.h5', 'Step 00021', ['time,0,0','zone mass,0,0'] )
 ;    IDL>print, h5_get_group_properties_in_zones( 'my_output.h5', 'Step 00021', ['time,0,0','zone mass,0'] )

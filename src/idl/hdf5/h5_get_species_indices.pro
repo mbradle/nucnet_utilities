@@ -21,9 +21,9 @@
 ;    species = the name of the species (more than one as an array)
 ;
 ; :Returns:
-;    a long array containing the indices of one or more species
+;    a long array containing the index of one or more species
 ;    
-; :Example (copy and paste):
+; :Examples (copy and paste):
 ;    (if my_output.h5 or my_stars.h5)
 ;    IDL>print, h5_get_species_indices( 'my_output.h5', 'si28' )
 ;    IDL>print, h5_get_species_indices( 'my_stars.h5', ['si28','mn60','n15'] )
