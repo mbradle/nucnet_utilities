@@ -56,16 +56,18 @@
 ;-
 
 function h5_get_zone_properties_in_groups, file, zone, property
- 
+
 file_id = h5f_open( file )
 
 property_array = make_array( n_elements( property ), 1, /string, value = '' )
 
 for n = 0, h5g_get_num_objs( file_id ) - 1 do begin
-  s = h5g_get_obj_name_by_idx( file_id, n )
+  group = h5g_get_obj_name_by_idx( file_id, n )
 
-  if s ne 'Nuclide Data' then begin
-    prop = h5_get_group_zone_properties( file, s, zone, property )
+  if group ne 'Nuclide Data' then begin
+    zone_index = h5_get_group_zone_index( file, group, zone )  
+
+    prop = h5_get_group_zone_properties( file, group, zone_index, property )
     property_array = [[property_array],[prop]]
   endif
 endfor

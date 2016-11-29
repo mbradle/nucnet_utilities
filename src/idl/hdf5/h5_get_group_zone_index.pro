@@ -35,7 +35,15 @@
 
 function h5_get_group_zone_index, file, group, zone
 
-zone_labels = h5_get_group_zone_labels( file, group )
+file_id = h5f_open( file )
+group_id = h5g_open( file_id, group )
+zone_labels_id = h5d_open( group_id, 'Zone Labels' )
+
+zone_labels = h5d_read( zone_labels_id )
+
+h5d_close, zone_labels_id
+h5g_close, group_id
+h5f_close, file_id
 
 if( n_elements( zone ) eq 1 ) then begin
   index = where( zone_labels.label_1 eq zone[0] )

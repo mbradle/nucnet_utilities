@@ -58,22 +58,24 @@
 
 function h5_get_group_properties_in_zones, file, group, property
  
-n_zones = h5_get_number_of_zones( file, group ) 
-zone_labels = h5_get_group_zone_labels( file, group )
+file_id = h5f_open( file )
+group_id = h5g_open( file_id, group )
 
 property_array = make_array( n_elements( property ), 1, /string, value = '' )
 
-for n = 0, n_zones - 1 do begin
-  zone =$
-    [zone_labels[n].label_1, zone_labels[n].label_2, zone_labels[n].label_3]
+for n = 0, h5g_get_nmembers( group_id, 'Zone Properties' ) - 1 do begin
+  zone_index = h5g_get_member_name( group_id, 'Zone Properties', n )
 
   property_array =$
     [$
       [property_array],$
-      [h5_get_group_zone_properties( file, group, zone, property )]$
+      [h5_get_group_zone_properties( file, group, zone_index, property )]$
     ]
 endfor
 
-return, property_array[0:n_elements( property ) - 1,1:n_zones]
+h5g_close, group_id
+h5f_close, file_id
+
+return, property_array[0:n_elements( property ) - 1,1:*]
 
 end

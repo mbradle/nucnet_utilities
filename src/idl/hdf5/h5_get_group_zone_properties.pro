@@ -20,7 +20,8 @@
 ;    file = the name of the input file
 ;    group = the group identifier (in the form 'Step 00030' or 
 ;            'Star 000000000195962')
-;    zone = a three-element vector identifying the zone
+;    zone = a three-element vector identifying the zone or scalar identifying 
+;           its index
 ;    property = an array of strings, each string 
 ;               (in the form 'name,tag_1 (optional),tag_2 (optional)') 
 ;               containing the name of the property to be retrieved and 
@@ -36,36 +37,34 @@
 ;    (if my_output.h5)
 ;    IDL>print, h5_get_group_zone_properties( 'my_output.h5', 'Step 00021', [4,9,7], ['time,0,0','zone mass,0,0'] )
 ;    IDL>print, h5_get_group_zone_properties( 'my_output.h5', 'Step 00021', [4,9,7], ['time,0,0','zone mass,0'] )
-;    IDL>print, h5_get_group_zone_properties( 'my_output.h5', 'Step 00021', [4,9,7], ['time','zone mass,0,0'] )
-;    IDL>print, h5_get_group_zone_properties( 'my_output.h5', 'Step 00021', [4,9,7], ['time,0','zone mass,0'] )
+;    IDL>print, h5_get_group_zone_properties( 'my_output.h5', 'Step 00021', 3, ['time','zone mass,0,0'] )
+;    IDL>print, h5_get_group_zone_properties( 'my_output.h5', 'Step 00021', 15, ['time,0','zone mass,0'] )
 ;    IDL>print, h5_get_group_zone_properties( 'my_output.h5', 'Step 00021', [4,9,7], ['time,0','zone mass'] )
 ;    IDL>print, h5_get_group_zone_properties( 'my_output.h5', 'Step 00021', [4,9,7], ['time','zone mass'] )
-;    IDL>print, h5_get_group_zone_properties( 'my_output.h5', 'Step 00021', [4,9,7], 'time,0,0' )
-;    IDL>print, h5_get_group_zone_properties( 'my_output.h5', 'Step 00021', [4,9,7], 'zone mass,0' )
+;    IDL>print, h5_get_group_zone_properties( 'my_output.h5', 'Step 00021', 36, 'time,0,0' )
+;    IDL>print, h5_get_group_zone_properties( 'my_output.h5', 'Step 00021', 7, 'zone mass,0' )
 ;    IDL>print, h5_get_group_zone_properties( 'my_output.h5', 'Step 00021', [4,9,7], 'time' )
 ;    
 ;    (if my_stars.h5 or my_remnants.h5)
 ;    IDL>print, h5_get_group_zone_properties( 'my_stars.h5', 'Star 000000000195962', [0,0,0], ['formation time,0,0','real y,0,0'] )
 ;    IDL>print, h5_get_group_zone_properties( 'my_stars.h5', 'Star 000000000195962', [0,0,0], ['formation time,0,0','real y,0'] )
-;    IDL>print, h5_get_group_zone_properties( 'my_remnants.h5', 'Star 000000000195962', [0,0,0], ['formation time','real y,0,0'] )
-;    IDL>print, h5_get_group_zone_properties( 'my_remnants.h5', 'Star 000000000195962', [0,0,0], ['formation time,0','real y,0'] )
+;    IDL>print, h5_get_group_zone_properties( 'my_remnants.h5', 'Star 000000000195962', 0, ['formation time','real y,0,0'] )
+;    IDL>print, h5_get_group_zone_properties( 'my_remnants.h5', 'Star 000000000195962', 0, ['formation time,0','real y,0'] )
 ;    IDL>print, h5_get_group_zone_properties( 'my_stars.h5', 'Star 000000000195962', [0,0,0], ['formation time,0','real y'] )
 ;    IDL>print, h5_get_group_zone_properties( 'my_remnants.h5', 'Star 000000000195962', [0,0,0], ['formation time','real y'] )
-;    IDL>print, h5_get_group_zone_properties( 'my_stars.h5', 'Star 000000000195962', [0,0,0], 'formation time,0,0' )
-;    IDL>print, h5_get_group_zone_properties( 'my_stars.h5', 'Star 000000000195962', [0,0,0], 'real y,0' )
+;    IDL>print, h5_get_group_zone_properties( 'my_stars.h5', 'Star 000000000195962', 0, 'formation time,0,0' )
+;    IDL>print, h5_get_group_zone_properties( 'my_stars.h5', 'Star 000000000195962', 0, 'real y,0' )
 ;    IDL>print, h5_get_group_zone_properties( 'my_remnants.h5', 'Star 000000000195962', [0,0,0], 'formation time' )
 ;-
 
 function h5_get_group_zone_properties, file, group, zone, property
 
+if isa( zone, /array ) then zone = h5_get_group_zone_index( file, group, zone )
+
 file_id = h5f_open( file )
 group_id = h5g_open( file_id, group )
 props_id = h5g_open( group_id, 'Zone Properties' )
-zone_id =$
-  h5d_open($
-    props_id,$
-    strtrim( string( h5_get_group_zone_index( file, group, zone ) ), 2 )$
-  )
+zone_id = h5d_open( props_id, strtrim( string( zone ), 2 ) )
 
 s = h5d_read( zone_id )
 
