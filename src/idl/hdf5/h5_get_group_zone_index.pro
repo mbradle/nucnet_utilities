@@ -46,18 +46,18 @@ h5g_close, group_id
 h5f_close, file_id
 
 if( n_elements( zone ) eq 1 ) then begin
-  index = where( zone_labels.label_1 eq zone[0] )
+  zone_index = where( zone_labels.label_1 eq zone[0] )
 endif
 if( n_elements( zone ) eq 2 ) then begin
-  index = where( zone_labels.label_1 eq zone[0]$
-                 and zone_labels.label_2 eq zone[1] )
+  zone_index = where( zone_labels.label_1 eq zone[0]$
+                      and zone_labels.label_2 eq zone[1] )
 endif
 if( n_elements( zone ) eq 3 ) then begin
-  index = where( zone_labels.label_1 eq zone[0]$
-                 and zone_labels.label_2 eq zone[1]$
-                 and zone_labels.label_3 eq zone[2] )
+  zone_index = where( zone_labels.label_1 eq zone[0]$
+                      and zone_labels.label_2 eq zone[1]$
+                      and zone_labels.label_3 eq zone[2] )
 endif
 
-return, index
+return, zone_index
 
 end
