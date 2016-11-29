@@ -44,10 +44,10 @@ file_id = h5f_open( file )
 x_array = make_array( n_elements( species ), 1, /double, value = 0. )
 
 for n = 0, h5g_get_num_objs( file_id ) - 1 do begin
-  s = h5g_get_obj_name_by_idx( file_id, n )
+  group = h5g_get_obj_name_by_idx( file_id, n )
 
-  if s ne 'Nuclide Data' then begin
-    x = h5_get_group_zone_mass_fractions( file, s, zone, species )
+  if group ne 'Nuclide Data' then begin
+    x = h5_get_group_zone_mass_fractions( file, group, zone, species )
     x_array = [[x_array],[x]]
   endif
 endfor
