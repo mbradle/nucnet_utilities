@@ -53,8 +53,8 @@
 ;    IDL>print, h5_get_group_zone_properties( 'my_stars.h5', 'Star 000000000195962', [0,0,0], ['formation time,0','real y'] )
 ;    IDL>print, h5_get_group_zone_properties( 'my_remnants.h5', 'Star 000000000195962', [0,0,0], ['formation time','real y'] )
 ;    IDL>print, h5_get_group_zone_properties( 'my_stars.h5', 'Star 000000000195962', 0, 'formation time,0,0' )
-;    IDL>print, h5_get_group_zone_properties( 'my_stars.h5', 'Star 000000000195962', 0, 'real y,0' )
-;    IDL>print, h5_get_group_zone_properties( 'my_remnants.h5', 'Star 000000000195962', [0,0,0], 'formation time' )
+;    IDL>print, h5_get_group_zone_properties( 'my_stars.h5', 'Star 000000000195962', [0,0,0], 'real y,0' )
+;    IDL>print, h5_get_group_zone_properties( 'my_remnants.h5', 'Star 000000000195962', 0, 'formation time' )
 ;-
 
 function h5_get_group_zone_properties, file, group, zone, property
