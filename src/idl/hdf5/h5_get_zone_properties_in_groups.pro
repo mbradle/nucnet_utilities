@@ -18,7 +18,7 @@
 ;
 ; :Params:
 ;    file = the name of the input file
-;    zone = a three-element vector identifying the zone
+;    zone = a three-element array identifying the zone
 ;    property = an array of strings, each string 
 ;               (in the form 'name,tag_1 (optional),tag_2 (optional)') 
 ;               containing the name of the property to be retrieved and 
