@@ -20,7 +20,7 @@
 ;    file = the name of the input file
 ;    group = the group identifier (in the form 'Step 00030' or 
 ;            'Star 000000000195962')
-;    zone = a three-element vector identifying the zone or scalar identifying 
+;    zone = a three-element array identifying the zone or scalar identifying 
 ;           its index
 ;    property = an array of strings, each string 
 ;               (in the form 'name,tag_1 (optional),tag_2 (optional)') 

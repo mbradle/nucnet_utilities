@@ -20,7 +20,7 @@
 ;    file = the name of the input file
 ;    group = the group identifier (in the form 'Step 00030' or 
 ;            'Star 000000000195962')
-;    zone = a three-element vector identifying the zone
+;    zone = a three-element array identifying the zone
 ;    species = the name of the species (more than one as an array)
 ;
 ; :Returns:
