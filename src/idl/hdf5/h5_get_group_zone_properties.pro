@@ -64,7 +64,7 @@ if isa( zone, /array ) then zone = h5_get_group_zone_index( file, group, zone )
 file_id = h5f_open( file )
 group_id = h5g_open( file_id, group )
 props_id = h5g_open( group_id, 'Zone Properties' )
-zone_id = h5d_open( props_id, strtrim( string( zone ), 2 ) )
+zone_id = h5d_open( props_id, strtrim( zone, 2 ) )
 
 s = h5d_read( zone_id )
 

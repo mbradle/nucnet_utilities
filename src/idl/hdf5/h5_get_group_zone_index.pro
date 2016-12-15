@@ -40,6 +40,7 @@ group_id = h5g_open( file_id, group )
 zone_labels_id = h5d_open( group_id, 'Zone Labels' )
 
 zone_labels = h5d_read( zone_labels_id )
+zone = strtrim( string( zone ), 2 )
 
 h5d_close, zone_labels_id
 h5g_close, group_id
@@ -58,6 +59,6 @@ if( n_elements( zone ) eq 3 ) then begin
                       and zone_labels.label_3 eq zone[2] )
 endif
 
-return, zone_index
+return, zone_index[0]
 
 end
