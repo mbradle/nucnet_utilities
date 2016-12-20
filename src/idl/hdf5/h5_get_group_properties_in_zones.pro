@@ -17,10 +17,10 @@
 ;    for a given group from a standard multi-zone hdf5 output file
 ;
 ; :Params:
-;    file = the name of the input file
-;    group = the group identifier (in the form 'Step 00030' or 
-;            'Star 000000000195962')
-;    property = an array of strings, each string 
+;    file     = the name of the input file
+;    group    = the group identifier (in the form 'Step 00030' or 
+;               'Star 000000000195962')
+;    property = a one-dimensional array of strings, each string 
 ;               (in the form 'name,tag_1 (optional),tag_2 (optional)') 
 ;               containing the name of the property to be retrieved and 
 ;               optional tag specifiers, or a string of the name and optional 
@@ -28,9 +28,14 @@
 ;               (see examples below)
 ;    
 ; :Returns:
+;    (if my_output.h5)
 ;    a two-dimensional array for the group containing strings of the value of 
 ;    one or more properties in all zones, the first dimension corresponding to 
 ;    each property and the second dimension corresponding to each zone 
+;    
+;    (if my_stars.h5 or my_remnants.h5)
+;    a one-dimensional array for the group containing strings of the value of 
+;    one or more properties in the zone
 ;    
 ; :Examples (copy and paste):
 ;    (if my_output.h5)

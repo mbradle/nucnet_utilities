@@ -17,11 +17,13 @@
 ;    multi-zone hdf5 output file
 ;
 ; :Params:
-;    file = the name of the input file
-;    species = the name of the species (more than one as an array)
+;    file    = the name of the input file
+;    species = the name of the species (more than one as a one-dimensional 
+;              array)
 ;
 ; :Returns:
-;    a long array containing the index of one or more species
+;    a one-dimensional array containing longs of the index of one or more 
+;    species
 ;    
 ; :Examples (copy and paste):
 ;    (if my_output.h5 or my_stars.h5)
@@ -43,6 +45,8 @@ index_array = [0]
 
 for n = 0, n_elements( species ) - 1 do begin
   index = where( nuclide_data.name eq species[n] )
+  if index eq -1 then message, 'SPECIES NOT FOUND'
+
   index_array = [index_array,index]
 endfor
 

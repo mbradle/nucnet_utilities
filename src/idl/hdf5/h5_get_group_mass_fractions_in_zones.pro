@@ -17,16 +17,22 @@
 ;    zones for a given group from a standard multi-zone hdf5 output file
 ;
 ; :Params:
-;    file = the name of the input file
-;    group = the group identifier (in the form 'Step 00030' or 
-;            'Star 000000000195962')
-;    species = the name of the species (more than one as an array)
+;    file    = the name of the input file
+;    group   = the group identifier (in the form 'Step 00030' or 
+;              'Star 000000000195962')
+;    species = the name of the species (more than one as a one-dimensional 
+;              array)
 ;
 ; :Returns:
+;    (if my_output.h5)
 ;    a two-dimensional array for the group containing doubles of the mass 
 ;    fraction of one or more species in all zones, the first dimension 
 ;    corresponding to each species and the second dimension corresponding to 
 ;    each zone 
+;    
+;    (if my_stars.h5)
+;    a one-dimensional array for the group containing doubles of the mass 
+;    fraction of one or more species in the zone
 ;    
 ; :Examples (copy and paste):
 ;    (if my_output.h5)

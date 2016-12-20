@@ -17,29 +17,38 @@
 ;    given zone for a given group from a standard multi-zone hdf5 output file
 ;
 ; :Params:
-;    file = the name of the input file
-;    group = the group identifier (in the form 'Step 00030' or 
-;            'Star 000000000195962')
-;    zone = a three-element array identifying the zone
-;    species = the name of the species (more than one as an array)
+;    file    = the name of the input file
+;    group   = the group identifier (in the form 'Step 00030' or 
+;              'Star 000000000195962')
+;    zone    = a one-dimensional, three-element array identifying the zone
+;    species = the name of the species (more than one as a one-dimensional 
+;              array)
 ;
 ; :Returns:
-;    a double array containing the mass fraction of one or more species in the 
-;    zone for the group
+;    a one-dimensional array containing doubles of the mass fraction of one or 
+;    more species in the zone for the group
 ;
 ; :Examples (copy and paste):
 ;    (if my_output.h5)
 ;    IDL>print, h5_get_group_zone_mass_fractions( 'my_output.h5', 'Step 00021', [4,9,7], 'mg24' )
 ;    IDL>print, h5_get_group_zone_mass_fractions( 'my_output.h5', 'Step 00021', [4,9,7], ['mg24','mg25','mg26'] )
 ;
-;    (if my_stars.h5 or my_remnants.h5)
+;    (if my_stars.h5)
 ;    IDL>print, h5_get_group_zone_mass_fractions( 'my_stars.h5', 'Star 000000000195962', [0,0,0], 'mg24' )
-;    IDL>print, h5_get_group_zone_mass_fractions( 'my_remnants.h5', 'Star 000000000195962', [0,0,0], ['mg24','mg25','mg26'] )
 ;-
 
 function h5_get_group_zone_mass_fractions, file, group, zone, species
 
-mass_fractions = h5_get_group_mass_fractions( file, group )
+file_id = h5f_open( file )
+group_id = h5g_open( file_id, group )
+mass_fractions_id = h5d_open( group_id, 'Mass Fractions' )
+
+mass_fractions = h5d_read( mass_fractions_id )
+
+h5d_close, mass_fractions_id
+h5g_close, group_id
+h5f_close, file_id
+
 species_indices = h5_get_species_indices( file, species )
 zone_index = h5_get_group_zone_index( file, group, zone ) 
 

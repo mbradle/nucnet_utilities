@@ -17,10 +17,10 @@
 ;    a standard multi-zone hdf5 output file
 ;
 ; :Params:
-;    file = the name of the input file
+;    file  = the name of the input file
 ;    group = the group identifier (in the form 'Step 00030' or 
 ;            'Star 000000000195962')
-;    zone = a three-element array identifying the zone
+;    zone  = a one-dimensional, three-element array identifying the zone
 ;
 ; :Returns:
 ;    a long integer of the index of the zone for the group
@@ -58,6 +58,8 @@ if( n_elements( zone ) eq 3 ) then begin
                       and zone_labels.label_2 eq zone[1]$
                       and zone_labels.label_3 eq zone[2] )
 endif
+
+if zone_index[0] eq -1 then message, 'ZONE NOT FOUND'
 
 return, zone_index[0]
 
