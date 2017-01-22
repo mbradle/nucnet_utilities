@@ -8,6 +8,7 @@ sys.path.append( dir_path + '/../../src/python' )
 
 import wn_xml
 import plot_params as plp
+import wn_utilities
 
 def plot_property_vs_property(
        file, prop1, prop2, **keyword_parameters
@@ -37,7 +38,9 @@ def plot_single_mass_fraction_vs_property(
 
     if( 'use_latex_names' in keyword_parameters ):
        if( keyword_parameters['use_latex_names'] == 'yes' ):
-           plt.ylabel( 'X(' + wn_xml.get_latex_names([species])[species] + ')' )
+           plt.ylabel(
+             'X(' + wn_utilities.get_latex_names([species])[species] + ')'
+           )
 
     plt.plot( x, y )
     plt.show()
