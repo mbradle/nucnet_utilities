@@ -10,8 +10,6 @@ def get_properties_in_zones( file, properties ):
     DOMTree = xml.dom.minidom.parse( file )
     collection = DOMTree.documentElement
 
-    print 'here 1'
-    
     # Create properties tuple
 
     properties_t = {}
@@ -44,10 +42,6 @@ def get_properties_in_zones( file, properties ):
 
         props = zone.getElementsByTagName("property")
     
-
-        print 'here 1'
-    
-
         prop_dict = {}
 
         for prop in props:
