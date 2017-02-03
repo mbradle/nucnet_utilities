@@ -20,7 +20,7 @@
 ;    file = the name of the input file
 ;
 ; :Returns:
-;    a string array containing the names of the groups
+;    a one-dimensional array containing strings of the names of the groups
 ;
 ; :Example (copy and paste):
 ;    IDL>print, h5_get_group_names( 'my_file.h5' )

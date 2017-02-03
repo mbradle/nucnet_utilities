@@ -17,9 +17,10 @@
 ;    groups for a given zone from a standard multi-zone hdf5 output file
 ;
 ; :Params:
-;    file = the name of the input file
-;    zone = a three-element array identifying the zone
-;    species = the name of the species (more than one as an array)
+;    file    = the name of the input file
+;    zone    = a three-element array identifying the zone
+;    species = the name of the species (more than one as a one-dimensional 
+;              array)
 ;
 ; :Returns:
 ;    a two-dimensional array for the zone containing doubles of the mass 

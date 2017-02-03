@@ -17,11 +17,11 @@
 ;    zone for a given group from a standard multi-zone hdf5 output file
 ;
 ; :Params:
-;    file = the name of the input file
-;    group = the group identifier (in the form 'Step 00030' or 
-;            'Star 000000000195962')
-;    zone = a three-element array identifying the zone or scalar identifying 
-;           its index
+;    file     = the name of the input file
+;    group    = the group identifier (in the form 'Step 00030' or 
+;               'Star 000000000195962')
+;    zone     = a one-dimensional, three-element array identifying the zone or 
+;               scalar identifying its index
 ;    property = an array of strings, each string 
 ;               (in the form 'name,tag_1 (optional),tag_2 (optional)') 
 ;               containing the name of the property to be retrieved and 
@@ -30,8 +30,8 @@
 ;               (see examples below)
 ;    
 ; :Returns:
-;    a string array containing the value of one or more properties in the zone 
-;    for the group
+;    a one-dimensional array containing strings of the value of one or more 
+;    properties in the zone for the group
 ;    
 ; :Examples (copy and paste):
 ;    (if my_output.h5)
@@ -64,7 +64,7 @@ if isa( zone, /array ) then zone = h5_get_group_zone_index( file, group, zone )
 file_id = h5f_open( file )
 group_id = h5g_open( file_id, group )
 props_id = h5g_open( group_id, 'Zone Properties' )
-zone_id = h5d_open( props_id, strtrim( string( zone ), 2 ) )
+zone_id = h5d_open( props_id, strtrim( zone, 2 ) )
 
 s = h5d_read( zone_id )
 
@@ -102,6 +102,8 @@ for n = 0, n_elements( property ) - 1 do begin
   if( cnt eq 0 ) then begin
     prop = where( s.name eq property[n] )
   endif   
+
+  if prop eq -1 then message, 'PROPERTY NOT FOUND'
 
   property_array = [property_array,s[prop].value]      
 endfor

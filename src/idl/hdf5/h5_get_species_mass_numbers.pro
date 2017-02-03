@@ -17,11 +17,13 @@
 ;    standard multi-zone hdf5 output file
 ;
 ; :Params:
-;    file = the name of the input file
-;    species = the name of the species (more than one as an array)
+;    file    = the name of the input file
+;    species = the name of the species (more than one as a one-dimensional 
+;              array)
 ;
 ; :Returns:
-;    a ulong array containing the mass number of one or more species
+;    a one-dimensional array containing ulongs of the mass number of one or 
+;    more species
 ;    
 ; :Examples (copy and paste):
 ;    (if my_output.h5 or my_stars.h5)
