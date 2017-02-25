@@ -2,13 +2,11 @@ def get_properties_in_zones( file, properties ):
 
     # Imports
 
-    from xml.dom.minidom import parse
-    import xml.dom.minidom
+    from lxml import etree
     
-    # Open XML document using minidom parser
+    # Parse the file and get the root
 
-    DOMTree = xml.dom.minidom.parse( file )
-    collection = DOMTree.documentElement
+    root = etree.parse( file ).getroot()
 
     # Create properties tuple
 
@@ -30,57 +28,43 @@ def get_properties_in_zones( file, properties ):
     for property in properties:
       dict[property] = []
 
-    # Get all the zones in the collection
+    # Loop on zones
 
-    zones = collection.getElementsByTagName("zone")
-    
-    # Assign data for each zone
+    zones = root.xpath( '//zone' )
 
     for zone in zones:
-    
-        # Get property lists
 
-        props = zone.getElementsByTagName("property")
-    
-        prop_dict = {}
+      for property in properties:
 
-        for prop in props:
-            prop_dict[prop.getAttribute("name")] = prop
+        tup = properties_t[property]
 
-        for property in properties:
-            tup = properties_t[property]
-            if( tup[0] in prop_dict ):
-               prop = prop_dict[tup[0]]
-               if( len( tup ) == 1 ):
-                  dict[property].append( prop.firstChild.data )
-               elif( len( tup  ) == 2 ):
-                  if(
-                      prop.hasAttribute("tag1") and
-                      prop.getAttribute("tag1") == tup[1]
-                    ):
-                     dict[property].append( prop.firstChild.data )
-               else:
-                  if(
-                      prop.hasAttribute("tag1") and 
-                      prop.getAttribute("tag1") == tup[1] and
-                      prop.hasAttribute("tag2") and 
-                      prop.getAttribute("tag2") == tup[2]
-                  ):
-                     dict[property].append( prop.firstChild.data )
-                  
+        if len( tup ) == 1:
+          data = zone.xpath( './/property[@name="%s"]' %  tup[0] )
+        elif len( tup ) == 2:
+          data = zone.xpath(
+              './/property[@name="%s" and @tag1="%s"]' %
+              tup[0], tup[1]
+            )
+        else:
+          data = zone.xpath(
+            './/property[@name="%s" and @tag1="%s" and @tag2="%s"]' %
+              tup[0], tup[1], tup[2]
+          )
+
+        for node in data:
+          dict[property].append( node.text )
+      
     return dict;
 
 def get_mass_fractions_in_zones( file, species ):
 
     # Imports
 
-    from xml.dom.minidom import parse
-    import xml.dom.minidom
+    from lxml import etree
     
-    # Open XML document using minidom parser
+    # Parse file
 
-    DOMTree = xml.dom.minidom.parse( file )
-    collection = DOMTree.documentElement
+    root = etree.parse( file ).getroot()
     
     # Create output
 
@@ -89,33 +73,20 @@ def get_mass_fractions_in_zones( file, species ):
     for my_species in species:
       dict[my_species] = []
 
-    # Get all the zones in the collection
+    # Loop on zones
 
-    zones = collection.getElementsByTagName("zone")
-    
-    # Assign data for each zone
+    zones = root.xpath( '//zone' )
 
     for zone in zones:
-    
-        # Get species mass fractions.  If the species is not present,
-        # the abundance is set to zero for this zone.
 
-        zone_nuclides = zone.getElementsByTagName("nuclide")
+      for my_species in species:
 
-        nuclides = {}
+        data = zone.xpath( './/nuclide[@name="%s"]/x' %  my_species )
 
-        for nuclide in zone_nuclides:
-          nuclides[nuclide.getAttribute("name")] = nuclide
+        if len( data ) == 0:
+          dict[my_species].append( 0. )
+        else:
+          dict[my_species].append( data[0].text )
 
-        for my_species in species:
-            if my_species in nuclides:
-                dict[my_species].append( 
-                  nuclides[
-                     my_species
-                  ].getElementsByTagName("x")[0].firstChild.data
-                )
-            else:
-                dict[my_species].append( 0. )
-            
     return dict;
 
