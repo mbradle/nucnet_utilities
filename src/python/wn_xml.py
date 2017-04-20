@@ -30,16 +30,22 @@ def get_properties_in_zones( root, properties ):
 
         tup = properties_t[property]
 
-        str = 'zone_data/zone/optional_properties/property'
+        path = '//zone_data/zone/optional_properties/property'
 
         if len( tup ) == 1:
-          str += '[@name="%s"]' % tup[0]
+          path += '[@name="%s"]' % tup[0].strip()
         elif len( tup ) == 2:
-          str += '[@name="%s" and @tag1="%s"]' % tup[0], tup[1]
+          path += '[@name="%s" and @tag1="%s"]' % ( tup[0].strip(), tup[1].strip() )
         else:
-          str += '[@name="%s" and @tag1="%s" and @tag2="%s"]' % tup[0], tup[1], tup[2]
+          path += '[@name="%s" and @tag1="%s" and @tag2="%s"]' % ( tup[0].strip(), tup[1].strip(), tup[2].strip() )
 
-        for elem in root.iterfind( str ):
+        props = root.xpath( path )
+
+        if len( props ) == 0:
+          print "Property not found."
+          return;
+
+        for elem in props:
             dict[property].append( elem.text );
 
     return dict;
