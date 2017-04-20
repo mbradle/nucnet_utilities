@@ -16,8 +16,18 @@ def plot_zone_property_vs_property(
 
     result = wn_h5.get_zone_properties_in_groups( file, zone, [prop1, prop2] )
 
-    x = np.array( map( float, result[prop1] ) )
-    y = np.array( map( float, result[prop2] ) )
+    if( 'xfactor' in keyword_parameters ):
+       xfactor = keyword_parameters['xfactor']
+    else:
+       xfactor = 1
+
+    if( 'yfactor' in keyword_parameters ):
+       yfactor = keyword_parameters['yfactor']
+    else:
+       yfactor = 1
+
+    x = np.array( map( float, result[prop1] ) ) / xfactor
+    y = np.array( map( float, result[prop2] ) ) / yfactor
 
     plp.set_plot_params( plt, keyword_parameters )
 
@@ -31,7 +41,12 @@ def plot_single_mass_fraction_vs_property(
     props = wn_h5.get_zone_properties_in_groups( file, zone, [prop] )
     m = wn_h5.get_zone_nuclide_mass_fractions_in_groups( file, zone, [species] )
 
-    x = np.array( map( float, props[prop] ) )
+    if( 'xfactor' in keyword_parameters ):
+       xfactor = keyword_parameters['xfactor']
+    else:
+       xfactor = 1
+
+    x = np.array( map( float, props[prop] ) ) / xfactor
     y = np.array( map( float, m[species] ) )
 
     plp.set_plot_params( plt, keyword_parameters )

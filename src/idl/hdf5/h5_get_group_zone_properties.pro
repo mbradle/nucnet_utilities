@@ -76,32 +76,18 @@ h5f_close, file_id
 property_array = ['']
 
 for n = 0, n_elements( property ) - 1 do begin
-  i = 0
-  cnt = 0
+  str = property[n].Split( ',' )
 
-  while( i ne -1 ) do begin
-    i = strpos( property[n], ',', i )
-    
-    if( i ne -1 ) then begin
-      cnt = cnt + 1
-      i = i + 1   
-    endif
-  endwhile
-  
-  str = strsplit( property[n], ',', /extract )
-
-  if( cnt gt 2 ) then begin
-    return, "Too many substrings in " + property[n] 
+  if( n_elements( str ) gt 3 ) then begin
+    message, "Too many substrings in " + property[n] 
   endif
-  if( cnt eq 2 ) then begin
-    prop = where( s.name eq str[0] and s.tag_1 eq str[1] and s.tag_2 eq str[2] )
-  endif   
-  if( cnt eq 1 ) then begin
-    prop = where( s.name eq str[0] and s.tag_1 eq str[1] )
-  endif   
-  if( cnt eq 0 ) then begin
-    prop = where( s.name eq property[n] )
-  endif   
+
+  case n_elements( str ) of
+     1: prop = where( s.name eq property[n] )
+     2: prop = where( s.name eq str[0] and s.tag_1 eq str[1] )
+     3: prop =$
+          where( s.name eq str[0] and s.tag_1 eq str[1] and s.tag_2 eq str[2] )
+  endcase
 
   if prop eq -1 then message, 'PROPERTY NOT FOUND'
 

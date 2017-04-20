@@ -90,7 +90,7 @@ def get_zone_nuclide_mass_fractions_in_groups( file, zone, nuclides ):
             x = get_group_mass_fractions( file, group_name ) 
             for nuclide in nuclides:
                 result[nuclide].append(
-                    x[zone_index[zone]][nuclide_hash[nuclide]['index']]
+                    x[zone_index[zone[0],zone[1],zone[2]]][nuclide_hash[nuclide]['index']]
                 )
 
     return result;
@@ -101,7 +101,7 @@ def get_group_zone_property_hash( file, group, zone ):
 
     h5file = h5py.File( file,'r' )
 
-    zone_index = get_group_zone_labels_hash( file, group )[zone]
+    zone_index = get_group_zone_labels_hash( file, group )[zone[0],zone[1],zone[2]]
 
     properties = h5file['/' + group + '/Zone Properties/' + str(zone_index)]
 

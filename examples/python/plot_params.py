@@ -17,3 +17,14 @@ def set_plot_params( plt, keyword_params ):
 
     if( 'ylabel' in keyword_params ):
       plt.ylabel( keyword_params['ylabel'] )
+
+    if( 'thickness' in keyword_params ):
+      plt.rcParams.update(
+        {'axes.linewidth': float(keyword_params['thickness'])}
+      )
+      plt.rcParams.update(
+        {'lines.linewidth': float(keyword_params['thickness'])/2.}
+      )
+
+    if( 'font_size' in keyword_params ):
+      plt.rcParams.update( {'font.size': int( keyword_params['font_size'] ) } )
