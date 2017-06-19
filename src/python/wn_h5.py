@@ -140,3 +140,38 @@ def get_zone_properties_in_groups( file, zone, properties ):
 
     return result;
 
+def get_group_properties_in_zones( file, group, properties ):
+
+    zone_labels_array = get_group_zone_labels_array( file, group )
+
+    # Get output
+
+    result = {}
+
+    for property in properties:
+        result[property] = []
+
+    for zone_labels in zone_labels_array:
+         p = get_group_zone_property_hash( file, group, zone_labels )
+         for property in properties:
+             result[property].append( p[property] )
+
+    return result;
+
+def get_iterable_groups( file ):
+
+    result = []
+
+    # Read HDF5 file
+
+    h5file = h5py.File( file,'r' )
+
+    # Set data
+
+    for group_name in h5file:
+        if( group_name != 'Nuclide Data' ):
+            result.append( group_name )
+
+    return result;
+      
+    
