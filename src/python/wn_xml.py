@@ -1,3 +1,43 @@
+def get_root( file ):
+    from lxml import etree
+    import wn_xml
+
+    return etree.parse( file ).getroot()
+    
+def get_species_data( root ):
+
+    # Create output
+
+    result = []
+
+    # Get species
+
+    species = root.xpath( '//nuclear_data/nuclide' )
+
+    for sp in species:
+        data = {}
+        data['z'] = (sp.xpath( 'z' ))[0].text
+        data['a'] = (sp.xpath( 'a' ))[0].text
+        result.append( data )
+
+    return result;
+
+def get_zones( root ):
+    return root.xpath( '//zone' );
+
+def get_properties_in_zone( zone ):
+
+    result = {}
+
+    properties = zone.xpath( 'optional_properties/property' )
+
+    # Loop on properties
+
+    for property in properties:
+        result[property.xpath( '@name' )[0]] = property.text
+   
+    return result;
+
 def get_properties_in_zones( root, properties ):
 
     # Imports
@@ -61,7 +101,7 @@ def get_mass_fractions_in_zones( root, species ):
 
     # Loop on zones
 
-    zones = root.xpath( '//zone' )
+    zones = get_zones( root )
 
     for zone in zones:
 
@@ -76,18 +116,36 @@ def get_mass_fractions_in_zones( root, species ):
 
     return dict;
 
-def get_mass_fractions_for_zone( root, zone_name ):
+def get_zone( root, zone_name ):
+
+    if len( zone_name ) == 1:
+       return root.xpath( '//zone[@label1 = "%s"]' % zone_name[0] )
+    elif len( zone_name ) == 2:
+       return root.xpath( 'zone[@label1 = "%s" and @label2 = %s]' % \
+          zone_name[0], zone_name[1] )
+    elif len( zone_name ) == 3:
+       return \
+          root.xpath( \
+            'zone[@label1 = "%s" and @label2 = %s and @label3 = %s]' % \
+             zone_name[0], zone_name[1] \
+          )
+
+def get_species_data_for_zone( zone ):
 
     # Create output
 
-    dict = {}
+    result = []
 
     # Get species
 
-    z = root.xpath( '//nuclide_data/nuclide/z' )
+    species = zone.xpath( 'mass_fractions/nuclide' )
 
-    for my_z in z:
-       print my_z
+    for sp in species:
+        data = {}
+        data['z'] = (sp.xpath( 'z' ))[0].text
+        data['a'] = (sp.xpath( 'a' ))[0].text
+        data['x'] = (sp.xpath( 'x' ))[0].text
+        result.append( data )
 
-    return;
+    return result;
 

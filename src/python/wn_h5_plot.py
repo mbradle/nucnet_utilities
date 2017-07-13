@@ -3,6 +3,7 @@ import numpy as np
 
 import wn_h5
 import plot_params as plp
+import wn_utilities
 
 def plot_zone_property_vs_property(
        file, zone, prop1, prop2, **keyword_parameters
