@@ -1,5 +1,22 @@
-def set_plot_params( plt, keyword_params ):
+def set_global_plot_params( plt, keyword_params ):
+    if( 'thickness' in keyword_params ):
+      plt.rcParams['axes.linewidth'] = float(keyword_params['thickness'])
+      plt.rcParams['lines.linewidth'] = float(keyword_params['thickness'])
 
+    if( 'font_size' in keyword_params ):
+      plt.rcParams['font.size'] = int( keyword_params['font_size'] )
+
+    if( 'font_weight' in keyword_params ):
+      plt.rcParams['font.weight'] = keyword_params['font_weight']
+#      plt.rcParams['axes.labelweight'] = keyword_params['font_weight']
+
+    if( 'tick_width' in keyword_params ):
+      plt.rcParams['xtick.major.width'] = float( keyword_params['tick_width'] )
+      plt.rcParams['xtick.minor.width'] = float( keyword_params['tick_width'] )
+      plt.rcParams['ytick.major.width'] = float( keyword_params['tick_width'] )
+      plt.rcParams['ytick.minor.width'] = float( keyword_params['tick_width'] )
+
+def set_plot_params( plt, keyword_params ):
     if( 'xscale' in keyword_params ):
       plt.xscale( keyword_params['xscale'] )
 
@@ -17,10 +34,3 @@ def set_plot_params( plt, keyword_params ):
 
     if( 'ylabel' in keyword_params ):
       plt.ylabel( keyword_params['ylabel'] )
-
-    if( 'thickness' in keyword_params ):
-      plt.rcParams['axes.linewidth'] = float(keyword_params['thickness'])
-      plt.rcParams['lines.linewidth'] = float(keyword_params['thickness'])
-
-    if( 'font_size' in keyword_params ):
-      plt.rcParams.update( {'font.size': int( keyword_params['font_size'] ) } )

@@ -57,3 +57,57 @@ def plot_single_mass_fraction_vs_property_in_files(
 
     plt.show()
 
+def plot_mass_fractions_vs_property(
+      file, prop, species, **keyword_parameters
+    ):
+
+    plp.set_global_plot_params( mpl, keyword_parameters )
+
+    fig = plt.figure()
+
+    x = []
+    y = []
+    l = []
+    latex_names = []
+
+    root = etree.parse( file ).getroot()
+
+    props = wn_xml.get_properties_in_zones( root, [prop] )
+
+    x = np.array( map( float, props[prop] ) )
+    if( 'xfactor' in keyword_parameters ):
+       x /= float( keyword_parameters['xfactor'] )
+
+    m = wn_xml.get_mass_fractions_in_zones( root, species )
+
+    if( 'use_latex_names' in keyword_parameters ):
+       if( keyword_parameters['use_latex_names'] == 'yes' ):
+         latex_names = wn_utilities.get_latex_names(species)
+
+    for i in range( len( species ) ):
+      y = np.array( map( float, m[species[i]] ) )
+      if( len( latex_names ) != 0 ):
+        lab = latex_names[species[i]]
+      else:
+        lab = species[i]
+      l.append( plt.plot( x, y, label = lab ) )
+
+    if( len( species ) != 1 ):
+      plt.legend(loc='upper right', prop={'size':14})
+
+    if( 'ylabel' not in keyword_parameters ):
+      if( len( species ) != 1 ):
+        plt.ylabel( 'Mass Fraction' )
+      else:
+        if( len( latex_names ) == 0 ):
+          plt.ylabel( 'X(' + species[0] + ')' )      
+        else:
+          plt.ylabel( 'X(' + latex_names[species[0]] + ')' )      
+
+    if( 'xlabel' not in keyword_parameters ):
+      plt.xlabel( prop )
+
+    plp.set_plot_params( plt, keyword_parameters )
+
+    plt.show()
+
