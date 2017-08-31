@@ -18,7 +18,7 @@ def plot_single_mass_fraction_vs_property_in_files(
 
     if( 'legend_labels' in keyword_parameters ):
        if( len( keyword_parameters['legend_labels'] ) != len( files ) ):
-          print "Invalid legend labels for input files."
+          print( "Invalid legend labels for input files." )
           exit( 1 );
 
     fig = plt.figure()
@@ -33,11 +33,11 @@ def plot_single_mass_fraction_vs_property_in_files(
 
     for i in range( len( roots ) ):
       props = wn_xml.get_properties_in_zones( roots[i], [prop] )
-      x = np.array( map( float, props[prop] ) )
+      x = np.array( list( map( float, props[prop] ) ) )
       if( 'xfactor' in keyword_parameters ):
          x /= float( keyword_parameters['xfactor'] )
       m = wn_xml.get_mass_fractions_in_zones( roots[i], [species] )
-      y = np.array( map( float, m[species] ) )
+      y = np.array( list( map( float, m[species] ) ) )
       if( 'legend_labels' in keyword_parameters ):
          ll, = plt.plot( x, y, label = keyword_parameters['legend_labels'][i] )
       else:
@@ -74,7 +74,7 @@ def plot_mass_fractions_vs_property(
 
     props = wn_xml.get_properties_in_zones( root, [prop] )
 
-    x = np.array( map( float, props[prop] ) )
+    x = np.array( list( map( float, props[prop] ) ) )
     if( 'xfactor' in keyword_parameters ):
        x /= float( keyword_parameters['xfactor'] )
 
@@ -85,7 +85,7 @@ def plot_mass_fractions_vs_property(
          latex_names = wn_utilities.get_latex_names(species)
 
     for i in range( len( species ) ):
-      y = np.array( map( float, m[species[i]] ) )
+      y = np.array( list( map( float, m[species[i]] ) ) )
       if( len( latex_names ) != 0 ):
         lab = latex_names[species[i]]
       else:
@@ -109,5 +109,21 @@ def plot_mass_fractions_vs_property(
 
     plp.set_plot_params( plt, keyword_parameters )
 
+    plt.show()
+
+def plot_property_vs_property(
+       file, prop1, prop2, **keyword_parameters
+    ):
+
+    root = etree.parse( file ).getroot()
+
+    result = wn_xml.get_properties_in_zones( root, [prop1, prop2] )
+
+    x = np.array( map( float, result[prop1] ) )
+    y = np.array( map( float, result[prop2] ) )
+
+    plp.set_plot_params( plt, keyword_parameters )
+
+    plt.plot( x, y )
     plt.show()
 

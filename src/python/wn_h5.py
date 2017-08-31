@@ -1,5 +1,21 @@
 import h5py
 
+def get_iterable_groups( file ):
+
+    result = []
+
+    # Read HDF5 file
+
+    h5file = h5py.File( file,'r' )
+
+    # Set data
+
+    for group_name in h5file:
+        if( group_name != 'Nuclide Data' ):
+            result.append( group_name )
+
+    return result;
+      
 def get_nuclide_data_array( file ):
 
     result = []
@@ -14,7 +30,10 @@ def get_nuclide_data_array( file ):
          data['name'] = nuclide_data[i][0]
          data['z'] = nuclide_data[i][2]
          data['a'] = nuclide_data[i][3]
-         data['mass excess'] = nuclide_data[i][4]
+         data['source'] = nuclide_data[i][4]
+         data['state'] = nuclide_data[i][5]
+         data['spin'] = nuclide_data[i][6]
+         data['mass excess'] = nuclide_data[i][7]
          result.append( data )
            
     return result;
@@ -30,7 +49,10 @@ def get_nuclide_data_hash( file ):
         data['index'] = i
         data['z'] = nuclide_data[i]['z']
         data['a'] = nuclide_data[i]['a']
+        data['source'] = nuclide_data[i]['source']
+        data['state'] = nuclide_data[i]['state']
         data['mass excess'] = nuclide_data[i]['mass excess']
+        data['spin'] = nuclide_data[i]['spin']
         result[nuclide_data[i]['name']] = data 
 
     return result;
@@ -71,10 +93,6 @@ def get_group_mass_fractions( file, group ):
 
 def get_zone_nuclide_mass_fractions_in_groups( file, zone, nuclides ):
 
-    # Read HDF5 file
-
-    h5file = h5py.File( file,'r' )
-
     # Get index hash
 
     nuclide_hash = get_nuclide_data_hash( file )
@@ -84,14 +102,14 @@ def get_zone_nuclide_mass_fractions_in_groups( file, zone, nuclides ):
     for nuclide in nuclides:
         result[nuclide] = []
 
-    for group_name in h5file:
-        if( group_name != 'Nuclide Data' ):
-            zone_index = get_group_zone_labels_hash( file, group_name )
-            x = get_group_mass_fractions( file, group_name ) 
-            for nuclide in nuclides:
-                result[nuclide].append(
-                    x[zone_index[zone[0],zone[1],zone[2]]][nuclide_hash[nuclide]['index']]
-                )
+    for group_name in get_iterable_groups( file ):
+         zone_index = get_group_zone_labels_hash( file, group_name )
+         x = get_group_mass_fractions( file, group_name ) 
+         for nuclide in nuclides:
+             result[nuclide].append(
+               x[zone_index[zone[0],zone[1],zone[2]]] \
+                [nuclide_hash[nuclide]['index']]
+             )
 
     return result;
 
@@ -100,8 +118,6 @@ def get_group_zone_property_hash( file, group, zone_index ):
     # Read HDF5 file
 
     h5file = h5py.File( file,'r' )
-
-#    zone_index = get_group_zone_labels_hash( file, group )[zone[0],zone[1],zone[2]]
 
     properties = h5file['/' + group + '/Zone Properties/' + str(zone_index)]
 
@@ -121,10 +137,6 @@ def get_group_zone_property_hash( file, group, zone_index ):
     
 def get_zone_properties_in_groups( file, zone, properties ):
 
-    # Read HDF5 file
-
-    h5file = h5py.File( file,'r' )
-
     # Get output
 
     result = {}
@@ -132,13 +144,14 @@ def get_zone_properties_in_groups( file, zone, properties ):
     for property in properties:
         result[property] = []
 
-    zone_index = get_group_zone_labels_hash( file, group )[zone[0],zone[1],zone[2]]
-
-    for group_name in h5file:
-        if( group_name != 'Nuclide Data' ):
-            p = get_group_zone_property_hash( file, group_name, zone_index )
-            for property in properties:
-                result[property].append( p[property] )
+    for group_name in get_iterable_groups( file ):
+        zone_index = \
+          get_group_zone_labels_hash(
+            file, group_name \
+          )[zone[0],zone[1],zone[2]]
+        p = get_group_zone_property_hash( file, group_name, zone_index )
+        for property in properties:
+          result[property].append( p[property] )
 
     return result;
 
@@ -156,27 +169,14 @@ def get_group_properties_in_zones( file, group, properties ):
     zone_labels_hash = get_group_zone_labels_hash( file, group )
 
     for zone_labels in zone_labels_array:
-         print zone_labels
-         p = get_group_zone_property_hash( file, group, zone_labels_hash[zone_labels[0], zone_labels[1], zone_labels[2]] )
+         p = \
+             get_group_zone_property_hash( \
+               file, group, zone_labels_hash[ \
+                  zone_labels[0], zone_labels[1], zone_labels[2] \
+               ] \
+             )
          for property in properties:
              result[property].append( p[property] )
 
     return result;
 
-def get_iterable_groups( file ):
-
-    result = []
-
-    # Read HDF5 file
-
-    h5file = h5py.File( file,'r' )
-
-    # Set data
-
-    for group_name in h5file:
-        if( group_name != 'Nuclide Data' ):
-            result.append( group_name )
-
-    return result;
-      
-    
