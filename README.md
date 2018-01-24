@@ -4,7 +4,7 @@ This is a set of plotting utilities for output from NucNet Tools.  To use,
 clone the repository .  Then set the PYTHONPATH environment variable.  If
 you cloned the repository to /home/xxx/nucnet_utilities, where xxx = your user name, type
 
-     export PYTHONPATH=/home/xxx/nucnet_utilities
+     export PYTHONPATH=/home/xxx/nucnet_utilities/src/python
 
 Then, in a directory with an output xml file called my_output.xml
 from NucNet Tools, open python and type, for example:
