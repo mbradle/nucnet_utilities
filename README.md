@@ -9,14 +9,20 @@ export PYTHONPATH=/home/xxx/nucnet_utilities
 Then, in a directory with an output xml file called my_output.xml
 from NucNet Tools, open python and type, for example:
 
->>>import wn_xml_plot as wp
->>>wp.plot_mass_fractions_vs_property( 'my_output.xml', 'time', ['h1','he4'] )
+import wn_xml_plot as wp
+
+wp.plot_mass_fractions_vs_property( 'my_output.xml', 'time', ['h1','he4'] )
 
 You can include keywords:
 
 xscale='linear' or 'log'
+
 yscale='linear' or 'log'
+
 xlim=[a,b] where a and b are the range of the x axis
+
 ylim=[a,b] where a and b are the range of the y axis
+
 xlabel='some text' which is the label of the x axis
+
 ylabel='some text' which is the label of the y axis
