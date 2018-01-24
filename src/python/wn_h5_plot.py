@@ -53,14 +53,21 @@ def plot_group_mass_fractions_vs_property(
     else:
        xfactor = 1
 
+    if( 'yfactor' in keyword_parameters ):
+       yfactor = keyword_parameters['yfactor']
+
     x = np.array( map( float, props[prop] ) ) / xfactor
 
     if( 'use_latex_names' in keyword_parameters ):
        if( keyword_parameters['use_latex_names'] == 'yes' ):
            laxtex_names = wn_utilities.get_latex_names(species)
 
+    iy = 0
     for sp in species:
       y = np.array( map( float, m[:, nuclide_data[sp]['index']] ) )
+      if( len( yfactor ) != 0 ):
+        y /= yfactor[iy]
+        iy += 1
       if( len( latex_names ) != 0 ):
         lab = latex_names[sp]
       else:
@@ -108,12 +115,19 @@ def plot_zone_mass_fractions_vs_property(
     else:
        xfactor = 1
 
+    x = np.array( map( float, props[prop] ) ) / xfactor
+
+    if( 'yfactor' in keyword_parameters ):
+       yfactor = keyword_parameters['yfactor']
+
     if( 'use_latex_names' in keyword_parameters ):
        if( keyword_parameters['use_latex_names'] == 'yes' ):
          latex_names = wn_utilities.get_latex_names(species)
 
     for i in range( len( species ) ):
       y = np.array( list( map( float, m[species[i]] ) ) )
+      if( len( yfactor ) != 0 ):
+        y /= yfactor[i]
       if( len( latex_names ) != 0 ):
         lab = latex_names[species[i]]
       else:
@@ -121,7 +135,7 @@ def plot_zone_mass_fractions_vs_property(
       l.append( plt.plot( x, y, label = lab ) )
 
     if( len( species ) != 1 ):
-      plt.legend(loc='upper right', prop={'size':14})
+      plt.legend(loc='upper left', prop={'size':14})
 
     if( 'ylabel' not in keyword_parameters ):
       if( len( species ) != 1 ):

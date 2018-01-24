@@ -57,6 +57,53 @@ def plot_single_mass_fraction_vs_property_in_files(
 
     plt.show()
 
+def plot_mass_fractions(
+      file, species, **keyword_parameters
+    ):
+
+    plp.set_global_plot_params( mpl, keyword_parameters )
+
+    fig = plt.figure()
+
+    y = []
+    l = []
+    latex_names = []
+
+    root = etree.parse( file ).getroot()
+
+    m = wn_xml.get_mass_fractions_in_zones( root, species )
+
+    if( 'use_latex_names' in keyword_parameters ):
+       if( keyword_parameters['use_latex_names'] == 'yes' ):
+         latex_names = wn_utilities.get_latex_names(species)
+
+    for i in range( len( species ) ):
+      y = np.array( list( map( float, m[species[i]] ) ) )
+      if( len( latex_names ) != 0 ):
+        lab = latex_names[species[i]]
+      else:
+        lab = species[i]
+      l.append( plt.plot( y, label = lab ) )
+
+    if( len( species ) != 1 ):
+      plt.legend(loc='upper right', prop={'size':14})
+
+    if( 'ylabel' not in keyword_parameters ):
+      if( len( species ) != 1 ):
+        plt.ylabel( 'Mass Fraction' )
+      else:
+        if( len( latex_names ) == 0 ):
+          plt.ylabel( 'X(' + species[0] + ')' )      
+        else:
+          plt.ylabel( 'X(' + latex_names[species[0]] + ')' )      
+
+    if( 'xlabel' not in keyword_parameters ):
+      plt.xlabel( 'step' )
+
+    plp.set_plot_params( plt, keyword_parameters )
+
+    plt.show()
+
 def plot_mass_fractions_vs_property(
       file, prop, species, **keyword_parameters
     ):
@@ -111,6 +158,21 @@ def plot_mass_fractions_vs_property(
 
     plt.show()
 
+def plot_property(
+       file, prop, **keyword_parameters
+    ):
+
+    root = etree.parse( file ).getroot()
+
+    result = wn_xml.get_properties_in_zones( root, [prop] )
+
+    x = np.array( map( float, result[prop] ) )
+
+    plp.set_plot_params( plt, keyword_parameters )
+
+    plt.plot( x )
+    plt.show()
+
 def plot_property_vs_property(
        file, prop1, prop2, **keyword_parameters
     ):
@@ -125,5 +187,20 @@ def plot_property_vs_property(
     plp.set_plot_params( plt, keyword_parameters )
 
     plt.plot( x, y )
+    plt.show()
+
+def plot_zone_abundances_vs_nucleon_number(
+       file, zone_xpath, nucleon, **keyword_parameters
+    ):
+
+    root = etree.parse( file ).getroot()
+
+    zones = wn_xml.get_zones( root, zone_xpath )
+
+    y = wn_xml.get_zone_abundances_vs_nucleon_number( zones[0], nucleon )
+
+    plp.set_plot_params( plt, keyword_parameters )
+
+    plt.plot( y )
     plt.show()
 

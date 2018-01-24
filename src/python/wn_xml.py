@@ -22,8 +22,8 @@ def get_species_data( root ):
 
     return result;
 
-def get_zones( root ):
-    return root.xpath( '//zone' );
+def get_zones( root, zone_xpath ):
+    return root.xpath( '//zone' + zone_xpath );
 
 def get_properties_in_zone( zone ):
 
@@ -101,7 +101,7 @@ def get_mass_fractions_in_zones( root, species ):
 
     # Loop on zones
 
-    zones = get_zones( root )
+    zones = get_zones( root, "" )
 
     for zone in zones:
 
@@ -142,10 +142,32 @@ def get_species_data_for_zone( zone ):
 
     for sp in species:
         data = {}
-        data['z'] = (sp.xpath( 'z' ))[0].text
-        data['a'] = (sp.xpath( 'a' ))[0].text
-        data['x'] = (sp.xpath( 'x' ))[0].text
+        data['z'] = int( (sp.xpath( 'z' ))[0].text )
+        data['a'] = int( (sp.xpath( 'a' ))[0].text )
+        data['n'] = data['a'] - data['z']
+        data['x'] = float( (sp.xpath( 'x' ))[0].text )
         result.append( data )
 
     return result;
 
+def get_zone_abundances_vs_nucleon_number( zone, nucleon ):
+
+    # Get species data
+
+    sp = get_species_data_for_zone( zone )
+
+    # Determine output array
+
+    n = []
+     
+    for s in sp:
+      n.append( s[nucleon] )
+
+    y = [0.] * ( max( n ) + 1 )
+
+    for s in sp:
+      y[s[nucleon]] += s['x'] / s['a']
+
+    return y; 
+
+    
