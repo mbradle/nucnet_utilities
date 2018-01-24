@@ -21,3 +21,12 @@ You can include keywords:
     ylim=[a,b] where a and b are the range of the y axis
     xlabel='some text' which is the label of the x axis
     ylabel='some text' which is the label of the y axis
+    
+Thus, for example, you can type
+
+    >>>import wn_xml_plot as wp
+    >>>wp.plot_mass_fractions_vs_property( 'my_output.xml', 'time', ['h1','he4'], xscale = 'log', xlim = [1.e-3,10], xlabel = 'time (s)', ylabel = 'Mass Fraction' )
+    
+ Another plotting function plots a property versus a property.  Thus, one could type
+ 
+     >>>wp.plot_property_vs_property( 'my_output.xml', 'time', 't9', xscale = 'log', xlim = [1.e-3,10], xlabel = 'time (s)', ylabel = '$T_9$' )
