@@ -10,7 +10,6 @@ Then, in a directory with an output xml file called my_output.xml
 from NucNet Tools, open python and type, for example:
 
      >>>import wn_xml_plot as wp
-
      >>>wp.plot_mass_fractions_vs_property( 'my_output.xml', 'time', ['h1','he4'] )
 
 You can include keywords:
