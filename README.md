@@ -29,4 +29,4 @@ Thus, for example, you can type
     
  Another plotting function plots a property versus a property.  Thus, one could type
  
-     >>>wp.plot_property_vs_property( 'my_output.xml', 'time', 't9', xscale = 'log', xlim = [1.e-3,10], xlabel = 'time (s)', ylabel = '$T_9$' )
+    >>>wp.plot_property_vs_property( 'my_output.xml', 'time', 't9', xscale = 'log', xlim = [1.e-3,10], xlabel = 'time (s)', ylabel = '$T_9$' )
