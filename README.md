@@ -1,7 +1,11 @@
 # nucnet_utilities
 
 This is a set of plotting utilities for output from NucNet Tools.  To use,
-clone the repository .  Then set the PYTHONPATH environment variable.  If
+clone the repository by typing
+
+     git clone github.com/mbradle/nucnet_utilities.git
+     
+Then set the PYTHONPATH environment variable.  If
 you cloned the repository to /home/xxx/nucnet_utilities, where xxx = your user name, type
 
      export PYTHONPATH=/home/xxx/nucnet_utilities/src/python
