@@ -7,6 +7,9 @@ import wn_xml
 import plot_params as plp
 import wn_utilities
 
+def list_rcparams():
+    print( mpl.rcParams.keys() )
+
 def plot_single_mass_fraction_vs_property_in_files(
       files, prop, species, **keyword_parameters
     ):
@@ -141,6 +144,9 @@ def plot_mass_fractions_vs_property(
           plt.ylabel( 'X(' + species[0] + ')' )      
         else:
           plt.ylabel( 'X(' + latex_names[species[0]] + ')' )      
+
+    if len( species ) != 1:
+      plt.legend()
 
     if( 'xlabel' not in keyword_parameters ):
       plt.xlabel( prop )
