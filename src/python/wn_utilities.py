@@ -2,7 +2,7 @@ def get_latex_names( nuclides ):
 
     latex_names = {}
     for nuclide in nuclides:
-        if nuclide[0] != 'n':
+        if len( nuclide ) != 1 or nuclide[0] != 'n':
           letters = nuclide[0].upper()
         else:
           letters = nuclide[0]
