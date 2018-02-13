@@ -1,36 +1,33 @@
-def set_global_plot_params( plt, keyword_params ):
-    if( 'thickness' in keyword_params ):
-      plt.rcParams['axes.linewidth'] = float(keyword_params['thickness'])
-      plt.rcParams['lines.linewidth'] = float(keyword_params['thickness'])
+def set_plot_params( mpl, keyword_params ):
+    mpl.rcParams.update(mpl.rcParamsDefault)
+    if 'rcparams' in keyword_params:
+      params = keyword_params['rcparams']
+      for key in params:
+        mpl.rcParams[key] = params[key]
 
-    if( 'font_size' in keyword_params ):
-      plt.rcParams['font.size'] = int( keyword_params['font_size'] )
+def apply_class_methods( my_cls, keyword_params ):
+    excludes = ['use_latex_names', 'rcparams']
+    with_kwargs = ['legend']
+    for key in keyword_params:
+      if key not in excludes:
+        if key not in with_kwargs:
+          method = None
 
-    if( 'font_weight' in keyword_params ):
-      plt.rcParams['font.weight'] = keyword_params['font_weight']
-#      plt.rcParams['axes.labelweight'] = keyword_params['font_weight']
+          try:
+            method = getattr( my_cls, key )
+          except AttributeError:
+            raise NotImplementedError("Class `{}` does not implement `{}`".format(my_cls.__class__.__name__, method_name))
 
-    if( 'tick_width' in keyword_params ):
-      plt.rcParams['xtick.major.width'] = float( keyword_params['tick_width'] )
-      plt.rcParams['xtick.minor.width'] = float( keyword_params['tick_width'] )
-      plt.rcParams['ytick.major.width'] = float( keyword_params['tick_width'] )
-      plt.rcParams['ytick.minor.width'] = float( keyword_params['tick_width'] )
+          method( keyword_params[key] )
 
-def set_plot_params( plt, keyword_params ):
-    if( 'xscale' in keyword_params ):
-      plt.xscale( keyword_params['xscale'] )
+        elif key in with_kwargs:
+          method = None
 
-    if( 'yscale' in keyword_params ):
-      plt.yscale( keyword_params['yscale'] )
+          try:
+            method = getattr( my_cls, key )
+          except AttributeError:
+            raise NotImplementedError("Class `{}` does not implement `{}`".format(my_cls.__class__.__name__, method_name))
 
-    if( 'xlim' in keyword_params ):
-      plt.xlim( keyword_params['xlim'] )
+          for key2 in keyword_params[key]:
+            method( **{ key2: keyword_params[key][key2] } ) 
 
-    if( 'ylim' in keyword_params ):
-      plt.ylim( keyword_params['ylim'] )
-
-    if( 'xlabel' in keyword_params ):
-      plt.xlabel( keyword_params['xlabel'] )
-
-    if( 'ylabel' in keyword_params ):
-      plt.ylabel( keyword_params['ylabel'] )
