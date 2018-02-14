@@ -1,12 +1,12 @@
 def set_plot_params( mpl, keyword_params ):
     mpl.rcParams.update(mpl.rcParamsDefault)
-    if 'rcparams' in keyword_params:
-      params = keyword_params['rcparams']
+    if 'rcParams' in keyword_params:
+      params = keyword_params['rcParams']
       for key in params:
         mpl.rcParams[key] = params[key]
 
 def apply_class_methods( my_cls, keyword_params ):
-    excludes = ['use_latex_names', 'rcparams']
+    excludes = ['use_latex_names', 'rcParams']
     with_kwargs = ['legend']
     for key in keyword_params:
       if key not in excludes:

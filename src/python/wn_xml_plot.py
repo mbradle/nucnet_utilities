@@ -7,7 +7,7 @@ import wn_xml
 import plot_params as plp
 import wn_utilities
 
-def list_rcparams():
+def list_rcParams():
     print( mpl.rcParams.keys() )
 
 def plot_single_mass_fraction_vs_property_in_files(
