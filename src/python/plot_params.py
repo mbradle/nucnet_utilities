@@ -6,7 +6,7 @@ def set_plot_params( mpl, keyword_params ):
         mpl.rcParams[key] = params[key]
 
 def apply_class_methods( my_cls, keyword_params ):
-    excludes = ['use_latex_names', 'rcParams']
+    excludes = ['use_latex_names', 'rcParams', 'x', 'y', 'xfactor']
     with_kwargs = ['legend']
     for key in keyword_params:
       if key not in excludes:
