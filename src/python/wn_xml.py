@@ -134,7 +134,7 @@ def get_species_data_for_zone( zone ):
 
     # Create output
 
-    result = []
+    result = {}
 
     # Get species
 
@@ -146,7 +146,7 @@ def get_species_data_for_zone( zone ):
         data['a'] = int( (sp.xpath( 'a' ))[0].text )
         data['n'] = data['a'] - data['z']
         data['x'] = float( (sp.xpath( 'x' ))[0].text )
-        result.append( data )
+        result[sp.xpath( '@name' )[0]] = data
 
     return result;
 
@@ -161,13 +161,12 @@ def get_zone_abundances_vs_nucleon_number( zone, nucleon ):
     n = []
      
     for s in sp:
-      n.append( s[nucleon] )
+      n.append( sp[s][nucleon] )
 
     y = [0.] * ( max( n ) + 1 )
 
     for s in sp:
-      y[s[nucleon]] += s['x'] / s['a']
+      y[sp[s][nucleon]] += sp[s]['x'] / sp[s]['a']
 
     return y; 
 
-    
