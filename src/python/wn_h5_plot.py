@@ -141,7 +141,7 @@ def plot_zone_mass_fractions_vs_property(
     latex_names = []
 
     props = wn_h5.get_zone_properties_in_groups( file, zone, [prop] )
-    m = wn_h5.get_zone_nuclide_mass_fractions_in_groups( file, zone, species )
+    m = wn_h5.get_zone_mass_fractions_in_groups( file, zone, species )
  
 
     if( 'xfactor' in keyword_parameters ):

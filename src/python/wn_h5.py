@@ -91,7 +91,7 @@ def get_group_mass_fractions( file, group ):
     h5file = h5py.File( file,'r' )
     return h5file['/' + group + '/Mass Fractions'];
 
-def get_zone_nuclide_mass_fractions_in_groups( file, zone, nuclides ):
+def get_zone_mass_fractions_in_groups( file, zone, nuclides ):
 
     # Get index hash
 

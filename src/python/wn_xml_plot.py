@@ -36,8 +36,7 @@ def plot_single_mass_fraction_vs_property_in_files(
       x = np.array( list( map( float, props[prop] ) ) )
       if( 'xfactor' in keyword_parameters ):
          x /= float( keyword_parameters['xfactor'] )
-      m = wn_xml.get_mass_fractions_in_zones( roots[i], [species] )
-      y = np.array( list( map( float, m[species] ) ) )
+      y = wn_xml.get_mass_fractions_in_zones( roots[i], [species] )
       if( 'legend_labels' in keyword_parameters ):
          ll, = plt.plot( x, y, label = keyword_parameters['legend_labels'][i] )
       else:
@@ -68,22 +67,18 @@ def plot_mass_fractions(
 
     root = etree.parse( file ).getroot()
 
-    m = wn_xml.get_mass_fractions_in_zones( root, species )
+    y = wn_xml.get_mass_fractions_in_zones( root, species )
 
     if( 'use_latex_names' in keyword_parameters ):
        if( keyword_parameters['use_latex_names'] == 'yes' ):
          latex_names = wn_utilities.get_latex_names(species)
 
     for i in range( len( species ) ):
-      y = np.array( list( map( float, m[species[i]] ) ) )
       if( len( latex_names ) != 0 ):
         lab = latex_names[species[i]]
       else:
         lab = species[i]
-      l.append( plt.plot( y, label = lab ) )
-
-#    if( len( species ) != 1 ):
-#      plt.legend(loc='upper right', prop={'size':14})
+      l.append( plt.plot( y[species[i]], label = lab ) )
 
     if( 'ylabel' not in keyword_parameters ):
       if( len( species ) != 1 ):
@@ -122,19 +117,18 @@ def plot_mass_fractions_vs_property(
     if( 'xfactor' in keyword_parameters ):
        x /= float( keyword_parameters['xfactor'] )
 
-    m = wn_xml.get_mass_fractions_in_zones( root, species )
+    y = wn_xml.get_mass_fractions_in_zones( root, species )
 
     if( 'use_latex_names' in keyword_parameters ):
        if( keyword_parameters['use_latex_names'] == 'yes' ):
          latex_names = wn_utilities.get_latex_names(species)
 
     for i in range( len( species ) ):
-      y = np.array( list( map( float, m[species[i]] ) ) )
       if( len( latex_names ) != 0 ):
         lab = latex_names[species[i]]
       else:
         lab = species[i]
-      l.append( plt.plot( x, y, label = lab ) )
+      l.append( plt.plot( x, y[species[i]], label = lab ) )
 
     if( 'ylabel' not in keyword_parameters ):
       if( len( species ) != 1 ):

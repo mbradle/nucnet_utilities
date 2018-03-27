@@ -92,9 +92,15 @@ def get_properties_in_zones( root, properties ):
 
 def get_mass_fractions_in_zones( root, species ):
 
-    # Create output
+    import numpy as np
+
+    # Create temporary
 
     dict = {}
+
+    # Create output
+
+    result = {}
 
     for my_species in species:
       dict[my_species] = []
@@ -114,7 +120,10 @@ def get_mass_fractions_in_zones( root, species ):
         else:
           dict[my_species].append( data.text )
 
-    return dict;
+    for my_species in species:
+      result[my_species] = np.array( list( map( float, dict[my_species] ) ) )
+
+    return result;
 
 def get_zone( root, zone_name ):
 
